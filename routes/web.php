@@ -12,13 +12,22 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('admin');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['prefix' => 'admin','middleware' => 'auth'],function(){
+    Route::get('/main', 'HomeController@index')->name('admin');
 
-Auth::routes();
+    Route::resource('/events', 'EventController');
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('/locations', 'LocationController');
+
+    Route::resource('/event-types', 'EventTypeController');
+
+    Route::resource('/users', 'UserController');
+});
+
+
+
