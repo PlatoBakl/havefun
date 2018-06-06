@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\EventType;
+use App\Models\Image;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -118,15 +120,39 @@ class EventController extends Controller
             'url'         => 'nullable|url',
             'ticket_url'  => 'nullable|url',
             'start_cost'  => 'nullable|numeric',
-            'end_cost'    => 'nullable|numeric',
+            'end_cost'    => 'nullable|numeric'
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $event->fill($request->except(['_token','_method']));
+//        if($request->file('files')){
+//        $path = Storage::putFile('avatars', $request->file('images'));
+
+        if ($request->hasFile('images')) {
+           foreach ((array) $request->file('images') as $image ){
+               $path = Storage::putFile("public/events/{$event->id}", $image);
+
+               $path = str_replace("public", "storage", $path);
+
+               $imageDate = new Image(['url' => $path,'cover' => 0]);
+               $event->images()->save($imageDate);
+           }
+        }
+
+        $event->images()->update(['cover' => 0]);
+
+        if($request->cover){
+            $image = Image::find($request->cover);
+            $image->cover = 1;
+            $image->save();
+        }
+
+        $event->fill($request->except(['_token','_method','images','id','cover']));
         $event->save();
+
+
 
         return redirect()->route('events.show',['event' => $event]);
     }

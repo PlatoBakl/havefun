@@ -34,6 +34,11 @@
                         </div>
                         <div class="body">
                             <div class="row clearfix">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                    <img style="width: 200px;height: 200px;border-radius: 50%;  max-width: 100%; object-fit: cover;;z-index: 150" src="{{asset($event->cover)}}" alt="">
+                                </div>
+                            </div>
+                            <div class="row clearfix">
                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-right">
                                     <label>Название</label>
                                 </div>
@@ -122,6 +127,24 @@
                                         @if($event->start_cost || $event->end_cost) {{$event->start_cost}} - {{$event->end_cost}}@else Не заполнено @endif
                                     </p>
                                 </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-right">
+                                    <label>Фото</label>
+                                </div>
+                                @if($event->images->count())
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                        <div class="row clearfix">
+                                            @foreach($event->images as $image)
+                                                <div class="col-lg-2">
+                                                    <img style="width:100%" src="{{asset($image->url)}}" alt="{{$image->title}}">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @else
+                                    <p>Фото отсутствует</p>
+                                @endif
                             </div>
                         </div>
                     </div>

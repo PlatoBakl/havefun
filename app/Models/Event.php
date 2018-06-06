@@ -9,7 +9,7 @@ class Event extends Model
     /**
      * @var array
      */
-    protected $guarded  = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     /**
      * @var string
@@ -27,35 +27,49 @@ class Event extends Model
         'end'
     ];
 
+    protected $appends = ['cover'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function location(){
+    public function location()
+    {
         return $this->hasOne('App\Models\Location', 'id', 'location_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function eventType(){
+    public function eventType()
+    {
         return $this->hasOne('App\Models\EventType', 'id', 'type_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users(){
+    public function users()
+    {
         return $this->belongsToMany('App\Models\User', 'events_users', 'event_id', 'user_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function images(){
+    public function images()
+    {
         return $this->hasMany('App\Models\Image', 'event_id');
     }
 
-    public function mediaInfo(){
+    public function mediaInfo()
+    {
         return $this->hasMany('App\Models\MediaInfo', 'event_id');
     }
+
+    public function getCoverAttribute()
+    {
+        $image = $this->images()->where('cover', 1)->first();
+        return ($image) ? $image->url : 'image/default.png';
+    }
+
 }

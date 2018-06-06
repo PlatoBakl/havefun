@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use App\Models\Event;
+use App\Http\Resources\Event as EventResource;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,22 +13,16 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/home', function (){
-    $data = [
-        ['title' => 'First event','description' => 'Text about first event','url' => "http://wikimotive.com/wikiblog/wp-content/uploads/sites/2/2013/10/events-heavenly-header1.jpg"],
-        ['title' => 'Second event','description' => 'Text about second event','url' => "http://www.catalyst.org/uploads/styles/content-large/public/Events.jpg"],
-    ];
 
-    return response()->json($data);
+
+Route::post('/auth/register', 'API\UserController@register');
+Route::post('/auth/login', 'API\UserController@login');
+
+Route::get('/events', function (){
+    return EventResource::collection(Event::all());
 });
 
-
-Route::post('/user/register', function (Request $request){
-    \App\User::create([
-        'name' => 'Anonymous',
-        'email' => $request->email,
-        'password' => \Illuminate\Support\Facades\Hash::make($request->password),
-    ]);
-    return response()->json($request->all());
+Route::get('/event/{event}', function ($id){
+    return new EventResource(Event::find($id));
 });
 

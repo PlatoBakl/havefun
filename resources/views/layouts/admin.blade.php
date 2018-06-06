@@ -25,13 +25,14 @@
     <link href="{{ asset('/bsbmd/plugins/animate-css/animate.css') }}" rel="stylesheet">
 
     <link href="{{ asset('/bsbmd/plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet">
-    <link href="{{ asset('/bsbmd/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+    {{--<link href="{{ asset('/bsbmd/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">--}}
     <link href="{{ asset('/bsbmd/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css') }}" rel="stylesheet">
 
     <!-- Custom Css -->
     <link href="{{ asset('/bsbmd/css/style.css') }}" rel="stylesheet">
+    {{--<link href="{{ asset('/bsbmd/plugins/materialize-css/css/materialize.css') }}" rel="stylesheet">--}}
 
-    {{--<link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">--}}
+    <link href="https://gurayyarar.github.io/AdminBSBMaterialDesign/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="{{ asset('/bsbmd/css/themes/all-themes.css') }}" rel="stylesheet">

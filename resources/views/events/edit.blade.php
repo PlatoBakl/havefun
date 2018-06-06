@@ -17,7 +17,7 @@
                             </h2>
                         </div>
                         <div class="body">
-                            <form method="POST" action="{{route("events.update",['event' => $event])}}">
+                            <form method="POST" action="{{route("events.update",['event' => $event])}}" enctype="multipart/form-data">
                                 <input name="_method" type="hidden" value="PUT">
                                 {{ csrf_field() }}
                                 <div class="row clearfix">
@@ -157,6 +157,34 @@
                                                 <label id="end_cost" class="error" for="surname">{{$errors->first('end_cost')}}</label>
                                             @endif
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-right">
+                                    <label>Изображения</label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="file" name="images[]" multiple>
+                                        </div>
+                                        @if(count($event->images))
+                                            <div class="row clearfix m-t-10 demo-radio-button">
+                                                @foreach($event->images as $image)
+                                                    <div class="col-lg-2">
+                                                        <img style="width:100%" src="{{asset($image->url)}}" alt="{{$image->title}}">
+                                                    </div>
+                                                    <div class="col-lg-1">
+                                                        {{--<div class="form-line">--}}
+                                                            <input type="radio" name="cover" id="image_{{$image->id}}" value="{{$image->id}}" @if($image->cover) checked @endif>
+                                                            <label for="image_{{$image->id}}"></label>
+                                                        {{--</div>--}}
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                        @if($errors->has('images'))
+                                            <label id="ticket_url" class="error" for="images">{{$errors->first('images')}}</label>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="row clearfix">
